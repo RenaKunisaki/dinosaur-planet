@@ -1,5 +1,6 @@
 /** Actor hit detection system
  */
+#include "sys/math.h"
 
 enum PolygonType { //copied from SFA, may be incorrect
     POLY_TYPE_WATER = 0x0E,
@@ -29,22 +30,31 @@ typedef struct {
 } ActorObjhitInfo;
 
 typedef struct {
+    //entry in OBJHITS.BIN
+/*0x00*/ s16 animId;
+/*0x02*/ u8 unk02;
+/*0x03*/ u8 unk03;
+/*0x04*/ u8 unk04;
+/*0x05*/ u8 unk05;
+} ObjHitsEntry;
+
+typedef struct {
     //copied from SFA. some fields don't exist in this version,
     //but not sure which. they come before 0x60
-/*0x00*/ TActor *curTouchedObject;
+/*0x00*/ struct TActor *curTouchedObject;
 /*0x04*/ s16 objHitsSize; //this >> 2 = #ptrs at field 8
 /*0x06*/ s16 maxHitsSize;
-/*0x08*/ ObjHitsEntry *objHits; //from OBJHITS.bin
+/*0x08*/ ObjHitsEntry *objHits;
 /*0x0c*/ float sizeXY_0C;
-/*0x10*/ vec3f pos;
-/*0x1c*/ vec3f prevPos;
-/*0x28*/ vec3f size;
+/*0x10*/ Vec3f pos;
+/*0x1c*/ Vec3f prevPos;
+/*0x28*/ Vec3f size;
 /*0x34*/ float minSizeY;
 /*0x38*/ float sizeY;
-/*0x3c*/ vec3f unk3C;
-/*0x48*/ undefined4 unk48;
+/*0x3c*/ Vec3f unk3C;
+/*0x48*/ UNK_TYPE_32 unk48;
 /*0x4c*/ UNK_TYPE_32 unk4C;
-/*0x50*/ TActor *lastTouchedObject;
+/*0x50*/ struct TActor *lastTouchedObject;
 /*0x54*/ UNK_TYPE_8 unk54;
 /*0x55*/ UNK_TYPE_8 unk55;
 /*0x56*/ UNK_TYPE_8 unk56;
@@ -66,12 +76,12 @@ typedef struct {
 /*0x6e*/ UNK_TYPE_8 unk6E;
 /*0x6f*/ UNK_TYPE_8 unk6F;
 /*0x70*/ UNK_TYPE_8 unk70;
-/*0x71*/ byte nHits; //max 3; only used for damage?
+/*0x71*/ s8 nHits; //max 3; only used for damage?
 /*0x72*/ u8 sphereIdxs[3];
 /*0x75*/ u8 objField6C[3];
 /*0x78*/ u8 recordedDamage[3];
 /*0x7b*/ UNK_TYPE_8 unk7B;
-/*0x7c*/ TActor *objs[3];
+/*0x7c*/ struct TActor *objs[3];
 /*0x88*/ float objX[3];
 /*0x94*/ float objY[3];
 /*0xa0*/ float objZ[3];

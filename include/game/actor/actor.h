@@ -96,3 +96,4 @@ extern float inverseDelayMirror; // why the mirrors, if they aren't used?
 extern struct TActor * object_pointer_array[]; //first is always player character.
 extern u16 objectCount;
 extern struct Vec3_Int Vec3_Int_array[];
+extern int gNumObjs;
