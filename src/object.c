@@ -30,7 +30,7 @@ int get_file_size(int file);
 void queue_alloc_load_file(void **dest, s32 fileId);
 void queue_load_file_to_ptr(void **dest, s32 fileId);
 void queue_load_file_region_to_ptr(void **dest, s32 arg1, s32 arg2, s32 arg3);
-void alloc_some_object_arrays(void); //related to objects
+void alloc_some_object_arrays(void);
 void func_80020D34(void);
 
 void init_objects(void) {
@@ -177,9 +177,23 @@ void func_80020BB8() {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020C48.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020D34.s")
-
+extern s32 D_800B191C;
+extern s32 D_800B1988;
 extern s16 D_800B18E0;
+extern s32 D_800B1928; //struct 0x38 bytes
+
+void func_80020D34(void) {
+    D_800B1914 = 0;
+    D_800B191C = 0;
+    D_800B1988 = 0;
+    gNumObjs = 0;
+    func_8000BA60(&D_800B1928, 0x38);
+    D_800B18E0 = 0;
+    func_80030EC0();
+    func_80025DF0();
+}
+
+
 void func_80020D90(void) { D_800B18E0 = 0; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020DA0.s")
@@ -194,7 +208,6 @@ void func_80020D90(void) { D_800B18E0 = 0; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800211B4.s")
 
-extern s32 gNumObjs;
 s32 get_num_objects(void) { return gNumObjs; }
 
 s32 ret0_800212E8(void) { return 0; }
