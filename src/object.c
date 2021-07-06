@@ -73,7 +73,7 @@ void init_objects(void) {
 #if 0
 extern char D_800994E0;
 
-void func_update_objects(void) {
+void _update_objects(void) {
     s16 size;
     TActor *obj2;
     void *temp_s0_2;
@@ -106,7 +106,7 @@ void func_update_objects(void) {
     }
     while(obj != NULL && obj->data->flags & OBJDATA_FLAG44_HasChildren) {
         update_object(obj);
-        obj->mtxIdx = func_80004258(obj);
+        obj->matrixIdx = func_80004258(obj);
         obj = obj + size;
     }
     func_80025E58();
@@ -123,7 +123,7 @@ void func_update_objects(void) {
         }
         obj = obj + size;
     }
-    
+
     player = get_player();
     if(player) {
         child = player->children[0];
