@@ -302,7 +302,7 @@ void objFreeObjDef(s32 defNo) {
 
 void doNothing_80022DD8(s32 a0, s32 a1, s32 a2) { }
 
-s32 func_80022DEC(void) { return gObjIndexCount; }
+s32 getObjIndexCount(void) { return gObjIndexCount; }
 
 //#pragma GLOBAL_ASM("asm/nonmatchings/object/isObjIndexEntryValid.s")
 #if 1
