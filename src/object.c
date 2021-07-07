@@ -8,7 +8,7 @@ extern void *D_800B1918;
 extern void *D_800B18E4;
 extern int gObjIndexCount; //count of OBJINDEX.BIN entries
 extern int gNumObjectsTabEntries;
-extern ObjData *gLoadedObjData;
+extern ObjData **gLoadedObjData;
 extern u8 *gObjRefCount; //pObjectRefCount
 extern int gNumTablesTabEntries;
 extern ObjListItem *gObjList; //global object list
@@ -273,7 +273,30 @@ void copy_obj_position_mirrors(TActor *obj)
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022AA4.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022C68.s")
+//SFA's objFreeObjDef is much more complex.
+//this might be a subroutine that got inlined in SFA,
+//rather than objFreeObjDef itself.
+void objFreeObjDef(s32 defNo) {
+    ObjData *obj;
+
+    if(gObjRefCount[defNo] == 0) {
+        //this line is present in SFA
+        //debugPrintf("objFreeObjdef: Error!! (%d)\n",defNo >> 8);
+    }
+    else {
+        gObjRefCount[defNo] = gObjRefCount[defNo] - 1;
+        if (gObjRefCount[defNo] == 0) {
+            obj = gLoadedObjData[defNo];
+            if (obj->pModLines != 0) {
+                free(obj->pModLines);
+            }
+            if (obj->pIntersectPoints != 0) {
+                free(obj->pIntersectPoints);
+            }
+            free(obj);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022D00.s")
 

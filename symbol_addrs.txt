@@ -1227,3 +1227,4 @@ get_num_objects = 0x800212D8; // type:func
 update_obj_hitboxes = 0x80026C14; // type:func
 obj_do_hit_detection = 0x800271FC; // type:func
 gNumObjs = 0x800B1924; // type:data size:0x4
+objFreeObjDef = 0x80022C68; // type:func
