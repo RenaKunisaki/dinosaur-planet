@@ -304,7 +304,15 @@ void doNothing_80022DD8(s32 a0, s32 a1, s32 a2) { }
 
 s32 func_80022DEC(void) { return gObjIndexCount; }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022DFC.s")
+//#pragma GLOBAL_ASM("asm/nonmatchings/object/isObjIndexEntryValid.s")
+#if 1
+BOOL isObjIndexEntryValid(s32 defNo) {
+    if (gObjIndexCount < defNo) {
+        return 0;
+    }
+    return gFile_OBJINDEX[defNo] != -1;
+}
+#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022E3C.s")
 

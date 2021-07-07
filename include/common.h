@@ -7,6 +7,7 @@ typedef u8 UNK_TYPE_8;
 typedef u16 UNK_TYPE_16;
 typedef u32 UNK_TYPE_32;
 typedef void UNK_PTR;
+typedef u32 BOOL;
 
 #include "constants.h"
 #include "sys/fs.h"
