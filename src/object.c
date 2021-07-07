@@ -345,7 +345,10 @@ void func_80023984(s8 *arg) { arg[0xAC] = -1; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800239C0.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A00.s")
+//#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A00.s")
+void func_80023A00(s8 *arg0, s8 arg1) {
+    arg0[0xAE] = arg1;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A18.s")
 
