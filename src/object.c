@@ -345,7 +345,6 @@ void func_80023984(s8 *arg) { arg[0xAC] = -1; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800239C0.s")
 
-//#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A00.s")
 void func_80023A00(s8 *arg0, s8 arg1) {
     arg0[0xAE] = arg1;
 }
@@ -378,7 +377,12 @@ void func_80023A00(s8 *arg0, s8 arg1) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024DD0.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024E2C.s")
+s16 func_80024E2C(TActor *arg0) {
+    //return arg0->modelInsts[arg0->modelInstIdx]->unk28->unk58;
+    s32 *a = arg0->modelInsts[arg0->modelInstIdx];
+    s16 *b = a[0x28 / 4];
+    return b[0x58 / 2];
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024E50.s")
 
