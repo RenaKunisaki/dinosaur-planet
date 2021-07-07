@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "common.h"
+#include "sys/gfx/animation.h"
 #include "variables.h"
 
 extern void **gLoadedObjDefs;
@@ -376,12 +377,26 @@ void func_80023A00(s8 *arg0, s8 arg1) {
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024D74.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024DD0.s")
+/* void *_func_80024DD0(TActor *obj, s32 arg1, s16 arg2, s16 arg3) {
+    ModelInstance *mInst;
+    AnimState *anim;
+
+    mInst = obj->modelInsts[obj->modelInstIdx];
+    if (mInst != 0) {
+        if (arg1 != 0) {
+            anim = mInst->animState1;
+        } else {
+            anim = mInst->animState0;
+        }
+        (anim + (arg2 * 2))->unk_0x58 = arg3;
+    }
+    return mInst;
+} */
 
 s16 func_80024E2C(TActor *arg0) {
-    //return arg0->modelInsts[arg0->modelInstIdx]->unk28->unk58;
-    s32 *a = arg0->modelInsts[arg0->modelInstIdx];
-    s16 *b = a[0x28 / 4];
-    return b[0x58 / 2];
+    ModelInstance *mInst = arg0->modelInsts[arg0->modelInstIdx];
+    AnimState *anim = mInst->animState0;
+    return anim->unk_0x58;
 }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024E50.s")
