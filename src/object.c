@@ -374,9 +374,17 @@ void func_80023A00(s8 *arg0, s8 arg1) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_8002493C.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024D74.s")
+void func_80024D74(TActor *obj, s32 arg1) {
+    ModelInstance *mInst;
+    AnimState *anim;
 
-//#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024DD0.s")
+    mInst = obj->modelInsts[obj->modelInstIdx];
+    if (mInst != 0) {
+        anim = mInst->animState0;
+        anim->unk_0x5e = 0x3FF / arg1;
+    }
+}
+
 void func_80024DD0(TActor *obj, s32 arg1, s16 arg2, s16 arg3) {
     ModelInstance *mInst;
     AnimState *anim;
