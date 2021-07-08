@@ -340,12 +340,14 @@ TActor *get_player(void) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_8002394C.s")
 
+//arg is most likely TActor*
 void func_80023984(s8 *arg) { arg[0xAC] = -1; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023994.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800239C0.s")
 
+//arg0 is most likely TActor*
 void func_80023A00(s8 *arg0, s8 arg1) {
     arg0[0xAE] = arg1;
 }
@@ -365,6 +367,17 @@ void func_80023A00(s8 *arg0, s8 arg1) {
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023CD8.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023D08.s")
+
+#if 0
+//this matches with -g3
+void _func_80023D08(s8 *arg0, u16 arg1) {
+    if (arg1 >= 5) {
+        arg0[0xD8] = arg1;
+        arg1 = 0;
+    }
+    arg0[0xD8] = arg1;
+}
+#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023D30.s")
 
@@ -437,4 +450,10 @@ void func_80025540(TActor *obj, s32 a1, s32 a2)
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80025780.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80025CD4.s")
+extern u8 D_800916B0;
+u8 func_80025CD4(s32 arg0) {
+    if (arg0 >= 0x21) {
+        return (u8)0U;
+    }
+    return *(&D_800916B0 + arg0);
+}
