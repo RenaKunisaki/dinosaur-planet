@@ -22,20 +22,6 @@ enum ObjShadowType { //copied from SFA; may be incorrect
     OBJ_SHADOW_BLUE_GLOWING_RECT = 0x4
 };
 
-enum HitboxFlags60 { //copied from SFA; may be incorrect
-    HITBOX_DISABLED        = 0x0001,
-    HITBOX_NEED_POS_UPDATE = 0x0040,
-    HITBOX_LOCK_ROT_Y      = 0x0800,
-    HITBOX_LOCK_ROT_Z      = 0x1000
-};
-
-enum HitboxFlags62 { //copied from SFA; may be incorrect
-    HITBOX_SCALE_BY_SIZE      = 0x01,
-    HITBOX_SIZE_FLAG_02       = 0x02,
-    HITBOX_DONT_UPDATE        = 0x08,
-    HITBOX_USE_MODEL_FIELD_14 = 0x20
-};
-
 enum ObjDataFlags5F { //copied from SFA; may be incorrect
     OBJDATA_FLAG5F_CrazyTranslucentEffect   = 0x01, //for HagabonMk2?
     OBJDATA_FLAG5F_ShadowUsesNoTexture      = 0x02,

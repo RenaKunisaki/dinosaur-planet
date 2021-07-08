@@ -25,7 +25,7 @@ typedef struct
 /*0044*/    u16 animIndexes[2];
 /*0048*/	u32 unk_0x48;
 /*004C*/	u16 unk_0x4c[2][3];
-/*0058*/    s16 unk_0x58;
+/*0058*/    s16 unk_0x58; //array of unknown size
 /*005A*/	s16 unk_0x5a;
 /*005C*/	s16 unk_0x5c;
 /*005E*/	u16 unk_0x5e;

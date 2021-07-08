@@ -1,6 +1,5 @@
 #include "common.h"
-
-#include "common.h"
+#include "sys/gfx/animation.h"
 #include "variables.h"
 
 extern void **gLoadedObjDefs;
@@ -8,10 +7,11 @@ extern void *D_800B1918;
 extern void *D_800B18E4;
 extern int gObjIndexCount; //count of OBJINDEX.BIN entries
 extern int gNumObjectsTabEntries;
-extern ObjData *gLoadedObjData;
+extern ObjData **gLoadedObjData;
 extern u8 *gObjRefCount; //pObjectRefCount
 extern int gNumTablesTabEntries;
-extern ObjListItem *gObjList; //global object list
+extern TActor **gObjList; //global object list
+extern int gNumObjs;
 
 enum FILE_ID {
     FILE_TABLES_BIN   = 0x16,
@@ -30,7 +30,7 @@ int get_file_size(int file);
 void queue_alloc_load_file(void **dest, s32 fileId);
 void queue_load_file_to_ptr(void **dest, s32 fileId);
 void queue_load_file_region_to_ptr(void **dest, s32 arg1, s32 arg2, s32 arg3);
-void alloc_some_object_arrays(void); //related to objects
+void alloc_some_object_arrays(void);
 void func_80020D34(void);
 
 void init_objects(void) {
@@ -73,7 +73,7 @@ void init_objects(void) {
 #if 0
 extern char D_800994E0;
 
-void func_update_objects(void) {
+void _update_objects(void) {
     s16 size;
     TActor *obj2;
     void *temp_s0_2;
@@ -106,7 +106,7 @@ void func_update_objects(void) {
     }
     while(obj != NULL && obj->data->flags & OBJDATA_FLAG44_HasChildren) {
         update_object(obj);
-        obj->mtxIdx = func_80004258(obj);
+        obj->matrixIdx = func_80004258(obj);
         obj = obj + size;
     }
     func_80025E58();
@@ -123,7 +123,7 @@ void func_update_objects(void) {
         }
         obj = obj + size;
     }
-    
+
     player = get_player();
     if(player) {
         child = player->children[0];
@@ -177,9 +177,23 @@ void func_80020BB8() {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020C48.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020D34.s")
-
+extern s32 D_800B191C;
+extern s32 D_800B1988;
 extern s16 D_800B18E0;
+extern s32 D_800B1928; //struct 0x38 bytes
+
+void func_80020D34(void) {
+    D_800B1914 = 0;
+    D_800B191C = 0;
+    D_800B1988 = 0;
+    gNumObjs = 0;
+    func_8000BA60(&D_800B1928, 0x38);
+    D_800B18E0 = 0;
+    func_80030EC0();
+    func_80025DF0();
+}
+
+
 void func_80020D90(void) { D_800B18E0 = 0; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020DA0.s")
@@ -188,13 +202,23 @@ void func_80020D90(void) { D_800B18E0 = 0; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800210DC.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/get_world_actors.s")
+//#pragma GLOBAL_ASM("asm/nonmatchings/object/get_world_actors.s")
+
+/**
+ * @param outFirst Receives index of first object (always 0). (can be NULL)
+ * @param outCount Receives number of objects. (can be NULL)
+ * @return gObjList.
+ */
+TActor** get_world_actors(s32 *outFirst, s32 *outCount) {
+    if(outFirst != 0) *outFirst = 0;
+    if(outCount != 0) *outCount = gNumObjs;
+    return gObjList;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80021178.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800211B4.s")
 
-extern s32 gNumObjs;
 s32 get_num_objects(void) { return gNumObjs; }
 
 s32 ret0_800212E8(void) { return 0; }
@@ -260,15 +284,46 @@ void copy_obj_position_mirrors(TActor *obj)
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022AA4.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022C68.s")
+//SFA's objFreeObjDef is much more complex.
+//this might be a subroutine that got inlined in SFA,
+//rather than objFreeObjDef itself.
+void objFreeObjDef(s32 defNo) {
+    ObjData *obj;
+
+    if(gObjRefCount[defNo] == 0) {
+        //this line is present in SFA
+        //debugPrintf("objFreeObjdef: Error!! (%d)\n",defNo >> 8);
+    }
+    else {
+        gObjRefCount[defNo] = gObjRefCount[defNo] - 1;
+        if (gObjRefCount[defNo] == 0) {
+            obj = gLoadedObjData[defNo];
+            if (obj->pModLines != 0) {
+                free(obj->pModLines);
+            }
+            if (obj->pIntersectPoints != 0) {
+                free(obj->pIntersectPoints);
+            }
+            free(obj);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022D00.s")
 
 void doNothing_80022DD8(s32 a0, s32 a1, s32 a2) { }
 
-s32 func_80022DEC(void) { return gObjIndexCount; }
+s32 getObjIndexCount(void) { return gObjIndexCount; }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022DFC.s")
+//#pragma GLOBAL_ASM("asm/nonmatchings/object/isObjIndexEntryValid.s")
+#if 1
+BOOL isObjIndexEntryValid(s32 defNo) {
+    if (gObjIndexCount < defNo) {
+        return 0;
+    }
+    return gFile_OBJINDEX[defNo] != -1;
+}
+#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022E3C.s")
 
@@ -295,19 +350,32 @@ TActor *get_player(void) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_8002394C.s")
 
+//arg is most likely TActor*
 void func_80023984(s8 *arg) { arg[0xAC] = -1; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023994.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800239C0.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A00.s")
+//arg0 is most likely TActor*
+void func_80023A00(s8 *arg0, s8 arg1) {
+    arg0[0xAE] = arg1;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A18.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A78.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023B34.s")
+extern s8 D_800B1930;
+extern s32 D_800B1938; //some array
+void func_80023B34(s32 arg0) {
+    s8   idx;
+    s8  *count = &D_800B1930;
+    s32 *val   = &D_800B1938;
+    idx = *count;
+    val[idx] = arg0;
+    *count = idx + 1;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023B60.s")
 
@@ -319,6 +387,17 @@ void func_80023984(s8 *arg) { arg[0xAC] = -1; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023D08.s")
 
+#if 0
+//this matches with -g3
+void _func_80023D08(s8 *arg0, u16 arg1) {
+    if (arg1 >= 5) {
+        arg0[0xD8] = arg1;
+        arg1 = 0;
+    }
+    arg0[0xD8] = arg1;
+}
+#endif
+
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023D30.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800240BC.s")
@@ -327,11 +406,37 @@ void func_80023984(s8 *arg) { arg[0xAC] = -1; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_8002493C.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024D74.s")
+void func_80024D74(TActor *obj, s32 arg1) {
+    ModelInstance *mInst;
+    AnimState *anim;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024DD0.s")
+    mInst = obj->modelInsts[obj->modelInstIdx];
+    if (mInst != 0) {
+        anim = mInst->animState0;
+        anim->unk_0x5e = 0x3FF / arg1;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024E2C.s")
+void func_80024DD0(TActor *obj, s32 arg1, s16 arg2, s16 arg3) {
+    ModelInstance *mInst;
+    AnimState *anim;
+
+    mInst = obj->modelInsts[obj->modelInstIdx];
+    if(mInst != NULL) {
+        if(arg1 != 0) {
+            anim = mInst->animState1;
+        } else {
+            anim = mInst->animState0;
+        }
+        (&anim->unk_0x58)[arg2] = arg3;
+    }
+}
+
+s16 func_80024E2C(TActor *arg0) {
+    ModelInstance *mInst = arg0->modelInsts[arg0->modelInstIdx];
+    AnimState *anim = mInst->animState0;
+    return anim->unk_0x58;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80024E50.s")
 
@@ -364,4 +469,10 @@ void func_80025540(TActor *obj, s32 a1, s32 a2)
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80025780.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80025CD4.s")
+extern u8 D_800916B0;
+u8 func_80025CD4(s32 arg0) {
+    if (arg0 >= 0x21) {
+        return (u8)0U;
+    }
+    return *(&D_800916B0 + arg0);
+}
