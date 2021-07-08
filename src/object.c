@@ -12,7 +12,7 @@ extern int gNumObjectsTabEntries;
 extern ObjData **gLoadedObjData;
 extern u8 *gObjRefCount; //pObjectRefCount
 extern int gNumTablesTabEntries;
-extern ObjListItem *gObjList; //global object list
+extern TActor **gObjList; //global object list
 
 enum FILE_ID {
     FILE_TABLES_BIN   = 0x16,
@@ -203,7 +203,18 @@ void func_80020D90(void) { D_800B18E0 = 0; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800210DC.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/get_world_actors.s")
+//#pragma GLOBAL_ASM("asm/nonmatchings/object/get_world_actors.s")
+
+/**
+ * @param outFirst Receives index of first object (always 0). (can be NULL)
+ * @param outCount Receives number of objects. (can be NULL)
+ * @return gObjList.
+ */
+TActor** get_world_actors(s32 *outFirst, s32 *outCount) {
+    if(outFirst != 0) *outFirst = 0;
+    if(outCount != 0) *outCount = gNumObjs;
+    return gObjList;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80021178.s")
 
