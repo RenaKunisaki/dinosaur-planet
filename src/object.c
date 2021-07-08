@@ -367,7 +367,16 @@ void func_80023A00(s8 *arg0, s8 arg1) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A78.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023B34.s")
+extern s8 D_800B1930;
+extern s32 D_800B1938; //some array
+void func_80023B34(s32 arg0) {
+    s8   idx;
+    s8  *count = &D_800B1930;
+    s32 *val   = &D_800B1938;
+    idx = *count;
+    val[idx] = arg0;
+    *count = idx + 1;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023B60.s")
 
