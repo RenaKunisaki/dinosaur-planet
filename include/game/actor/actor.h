@@ -67,7 +67,7 @@ typedef struct TActor {
 /*00A0*/    s16 curAnimId;
 /*00A2*/	s16 unk_0xa2;
 /*00A4*/    u8 unk0xa4[0xac - 0xa4];
-/*00AC*/    u8 mapId;
+/*00AC*/    s8 mapId;
 /*00AD*/    s8 modelInstIdx;
 /*00AE*/    u8 unk0xae;
 /*00AF*/    u8 unk0xaf;
