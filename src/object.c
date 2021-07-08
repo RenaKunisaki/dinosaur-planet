@@ -353,7 +353,9 @@ TActor *get_player(void) {
 //arg is most likely TActor*
 void func_80023984(s8 *arg) { arg[0xAC] = -1; }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023994.s")
+void func_80023994(TActor *obj) {
+    obj->mapId = map_get_map_id_from_xz_ws(obj->srt.transl.x, obj->srt.transl.z);
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800239C0.s")
 

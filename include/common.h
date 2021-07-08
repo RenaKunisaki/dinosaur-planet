@@ -30,6 +30,7 @@ typedef u32 BOOL;
 #include "game/actor/hitbox.h"
 #include "game/actor/actor.h"
 #include "game/actor/player/player.h"
+#include "game/map/map.h"
 #include "variables.h"
 #include "functions.h"
 
