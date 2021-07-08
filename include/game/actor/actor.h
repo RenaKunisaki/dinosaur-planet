@@ -1,5 +1,7 @@
 /** Actor/Game Object system
  */
+#ifndef _GAME_ACTOR_ACTOR_H
+#define _GAME_ACTOR_ACTOR_H
 
 //used for PlayerPosBuffer and something else
 struct Vec3_Int{
@@ -98,3 +100,5 @@ extern struct TActor * object_pointer_array[]; //first is always player characte
 extern u16 objectCount;
 extern struct Vec3_Int Vec3_Int_array[];
 extern int gNumObjs;
+
+#endif //_GAME_ACTOR_ACTOR_H

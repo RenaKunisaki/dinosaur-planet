@@ -1,5 +1,7 @@
 /** Object (actor) data in OBJECTS.BIN.
  */
+#ifndef _GAME_ACTOR_OBJDATA_H
+#define _GAME_ACTOR_OBJDATA_H
 
 enum ObjDataFlags44 { //copied from SFA; may be incorrect
     OBJDATA_FLAG44_HaveModels               = 0x00000001,
@@ -141,3 +143,5 @@ typedef struct ObjData { //copied from SFA; may be incorrect
 /*90*/ u8 hitbox_flagsB6; // < 0xE = invincible (HitboxFlags62)
 /*91*/ char name[11];
 } ObjData;
+
+#endif //_GAME_ACTOR_OBJDATA_H

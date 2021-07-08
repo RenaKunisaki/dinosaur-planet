@@ -1,5 +1,7 @@
 /** Player system
  */
+#ifndef _GAME_ACTOR_PLAYER_PLAYER_H
+#define _GAME_ACTOR_PLAYER_PLAYER_H
 
 //pointer at 0x34c of "state" struct
 struct CharacterStats{
@@ -18,3 +20,5 @@ extern struct CharacterStats * charStats_pointer;
 
 extern s32 PlayerPosBuffer_index;
 extern struct Vec3_Int PlayerPosBuffer[60]; //seems to buffer player coords with "timestamp"
+
+#endif //_GAME_ACTOR_PLAYER_PLAYER_H

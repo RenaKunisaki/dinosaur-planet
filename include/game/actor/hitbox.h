@@ -1,5 +1,7 @@
 /** Actor hit detection system
  */
+#ifndef _GAME_ACTOR_HITBOX_H
+#define _GAME_ACTOR_HITBOX_H
 #include "sys/math.h"
 
 enum PolygonType { //copied from SFA, may be incorrect
@@ -96,3 +98,5 @@ typedef struct {
 /*0xb5*/ UNK_TYPE_8 unkB5;
 /*0xb6*/ u8 flagsB6; //HitboxFlags62
 } HitState;
+
+#endif //_GAME_ACTOR_HITBOX_H
