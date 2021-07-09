@@ -206,9 +206,8 @@ s32 ret0_800212E8(void) { return 0; } //get_first_object()?
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022200.s")
 
-//#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022274.s")
 void func_80022274(TActor *arg0) {
-    if ((arg0->unk0xb0 & 0x10) != 0) {
+    if ((arg0->flags_B0 & 0x10) != 0) {
         func_8000BB5C(&D_800B1928, arg0);
     }
 }
