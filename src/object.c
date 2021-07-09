@@ -1,4 +1,5 @@
 #include "common.h"
+#include "game/actor/actor.h"
 #include "sys/gfx/animation.h"
 #include "variables.h"
 
@@ -167,8 +168,6 @@ void func_80020D90(void) { D_800B18E0 = 0; }
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020EE4.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800210DC.s")
-
-//#pragma GLOBAL_ASM("asm/nonmatchings/object/get_world_actors.s")
 
 /**
  * @param outFirst Receives index of first object (always 0). (can be NULL)
@@ -346,9 +345,21 @@ void func_80023B34(s32 arg0) {
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023C6C.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023CD8.s")
+#if 0
+void _func_80023CD8(TActor *obj, s32 arg1) {
+    s32 temp_t6;
+    s8 phi_a1;
+
+    temp_t6 = arg1 & 0xFFFF;
+    phi_a1 = (s8) temp_t6;
+    if ((s32) obj->data->unk9B < temp_t6) {
+        phi_a1 = (u8)0;
+    }
+    obj->unk_0xd0[4] = phi_a1;
+}
+#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023D08.s")
-
 #if 0
 //this matches with -g3
 void _func_80023D08(s8 *arg0, u16 arg1) {

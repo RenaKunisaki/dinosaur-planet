@@ -72,26 +72,40 @@ typedef struct AButtonInteraction { //copied from SFA; may be incorrect
 
 //Entry in OBJECTS.BIN, aka ObjectFileStruct (made-up name)
 //debug messages imply ObjData is the correct name or close to it
-typedef struct ObjData { //copied from SFA; may be incorrect
+//offsets are converted to pointers when loaded
+/*eg:  0  1  2  3   4  5  6  7   8  9  A  B   C  D  E  F   0123 4567 89AB CDEF
+0000  40 40 00 00  3D 4A C0 83  00 00 00 AC  00 00 03 94   @@.. =J.. .... ....
+0010  00 00 03 B2  00 00 00 00  00 00 00 00  00 00 04 D4   .... .... .... ....
+0020  00 00 00 F4  00 00 00 BC  00 00 03 54  00 00 03 E4   .... .... ...T ....
+0030  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00   .... .... .... ....
+0040  00 00 00 00  00 00 00 10  00 02 00 30  00 31 FF 9C   .... .... ...0 .1..
+0050  00 0A 03 00  02 00 00 00  80 01 00 01  00 04 03 53   .... .... .... ...S
+0060  61 62 72 65  00 00 00 00  00 00 00 00  00 00 00 0C   abre .... .... ....
+0070  0A 0F 0A 00  01 00 00 00  FF FF 00 0C  02 05 FF 00   .... .... .... ....
+0080  00 00 00 B3  27 51 FF 02  00 00 00 00  00 00 00 01   .... 'Q.. .... ....
+0090  08 0A 14 12  FF FF 00 25  01 7F 7F 00  00 00 00 00   .... ...% .... ....
+00A0  FF FF FF FF  FF FF FF FF  FF FF FF FF  00 00 00 07   .... .... .... ....
+       0  1  2  3   4  5  6  7   8  9  A  B   C  D  E  F   0123 4567 89AB CDEF */
+typedef struct ObjData { //originally copied from SFA; many fields likely incorrect
 /*00*/ float unk00; //copied to shadow field 0
 /*04*/ float scale;
 /*08*/ u32 *pModelList; //-> list of model IDs
 /*0c*/ UNK_PTR *textures;
 /*10*/ UNK_PTR *unk10;
 /*14*/ UNK_PTR *unk14;
-/*18*/ u32 *offset_0x18; //[OPTIONAL] a file containing functions
-/*1c*/ u16 *pSeq; //[OPTIONAL] -> seq IDs
-/*20*/ UNK_TYPE_8 *pEvent; //[OPTIONAL] offset into the file. changed to pointer on load
-/*24*/ UNK_TYPE_8 *pHits; //[OPTIONAL]
-/*28*/ UNK_TYPE_8 *pWeaponDa; //[OPTIONAL]
-/*2c*/ AttachPoint *pAttachPoints;
-/*30*/ s16 *pModLines; //ignored in file (zeroed on load)
-/*34*/ UNK_PTR *pIntersectPoints; //ignored in file (zeroed on load) (wObjList?)
-/*38*/ UNK_PTR *nextIntersectPoint;
-/*3c*/ UNK_PTR *nextIntersectLine;
-/*40*/ AButtonInteraction *aButtonInteraction;
+/*18*/ UNK_PTR *unk18;
+/*1c*/ UNK_PTR *unk1C;
+/*20*/ UNK_PTR *unk20;
+/*24*/ UNK_PTR *unk24;
+/*28*/ UNK_PTR *unk28;
+/*2c*/ UNK_PTR *unk2C;
+/*30*/ s16 *pModLines; //should be correct (see objFreeObjDef)
+/*34*/ UNK_PTR *pIntersectPoints; //should be correct (see objFreeObjDef)
+/*38*/ u32 unk38;
+/*3c*/ u32 unk3C;
+/*40*/ u32 unk40;
 /*44*/ u32 flags; //ObjDataFlags44
-/*48*/ s16 shadowType; //ObjShadowType
+/*48*/ s16 shadowType; //ObjShadowType (guessed)
 /*4a*/ s16 shadowTexture;
 /*4c*/ UNK_TYPE_8 unk4C;
 /*4d*/ UNK_TYPE_8 unk4D;
@@ -109,7 +123,8 @@ typedef struct ObjData { //copied from SFA; may be incorrect
 /*5c*/ s8 modLinesSize; //ignored in file
 /*5d*/ s8 modLinesIdx;
 /*5e*/ u8 numSeqs;
-/*5f*/ u8 flags_0x5f; //ObjDataFlags5F
+/*5f*/ char name[15];
+//most fields beyond here are copied from SFA and probably are wrong.
 /*60*/ u8 hitbox_fieldB0;
 /*61*/ u8 hasHitbox; //or # hitboxes, but should only be 1
 /*62*/ u8 hitboxSizeXY;
@@ -141,7 +156,26 @@ typedef struct ObjData { //copied from SFA; may be incorrect
 /*8e*/ u8 colorIdx; //related to textures; 1=dark, 2=default, 3+=corrupt, 77=crash, 0=normal
 /*8f*/ u8 unk8F; //related to hitbox
 /*90*/ u8 hitbox_flagsB6; // < 0xE = invincible (HitboxFlags62)
-/*91*/ char name[11];
-} ObjData;
+/*91*/ UNK_TYPE_8 unk91;
+/*92*/ UNK_TYPE_8 unk92;
+/*93*/ UNK_TYPE_8 unk93;
+/*94*/ UNK_TYPE_8 unk94;
+/*95*/ UNK_TYPE_8 unk95;
+/*96*/ UNK_TYPE_8 unk96;
+/*97*/ UNK_TYPE_8 unk97;
+/*98*/ UNK_TYPE_8 unk98;
+/*99*/ UNK_TYPE_8 unk99;
+/*9A*/ UNK_TYPE_8 unk9A;
+/*9B*/ u8 unk9B;
+/*9C*/ UNK_TYPE_8 unk9C;
+/*9D*/ UNK_TYPE_8 unk9D;
+/*9E*/ UNK_TYPE_8 unk9E;
+/*9F*/ UNK_TYPE_8 unk9F;
+/*A0*/ UNK_TYPE_32 unkA0;
+/*A4*/ UNK_TYPE_32 unkA4;
+/*A8*/ UNK_TYPE_32 unkA8;
+/*AC*/ UNK_TYPE_32 unkAC;
+} ObjData; //size = 0xB0; other data follows, is pointed to by this struct
+
 
 #endif //_GAME_ACTOR_OBJDATA_H
