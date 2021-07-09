@@ -180,7 +180,11 @@ TActor** get_world_actors(s32 *outFirst, s32 *outCount) {
     return gObjList;
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80021178.s")
+TActor* get_actor(s32 idx) {
+    if ((idx < 0) || (idx >= gNumObjs)) return 0;
+    return gObjList[idx];
+}
+
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800211B4.s")
 
