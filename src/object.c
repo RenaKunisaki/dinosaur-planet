@@ -2,26 +2,6 @@
 #include "sys/gfx/animation.h"
 #include "variables.h"
 
-extern void **gLoadedObjDefs;
-extern void *D_800B1918;
-extern void *D_800B18E4;
-extern int gObjIndexCount; //count of OBJINDEX.BIN entries
-extern int gNumObjectsTabEntries;
-extern ObjData **gLoadedObjData;
-extern u8 *gObjRefCount; //pObjectRefCount
-extern int gNumTablesTabEntries;
-extern TActor **gObjList; //global object list
-extern int gNumObjs;
-
-extern void *gFile_TABLES_BIN;
-extern s32  *gFile_TABLES_TAB;
-extern s32  *gFile_OBJECTS_TAB;
-extern s16  *gFile_OBJINDEX;
-
-int get_file_size(int file);
-void queue_alloc_load_file(void **dest, s32 fileId);
-void queue_load_file_to_ptr(void **dest, s32 fileId);
-void queue_load_file_region_to_ptr(void **dest, s32 arg1, s32 arg2, s32 arg3);
 void alloc_some_object_arrays(void);
 void func_80020D34(void);
 
@@ -157,25 +137,19 @@ void doNothing_80020A40(void) {}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/update_obj_models.s")
 
-extern int D_800B1914;
 void func_80020BB8() {
     int i;
-    for(i = 0; i < D_800B1914; i++) {
+    for(i = 0; i < gNumLoadedObjDefs; i++) {
         func_80022F94(gLoadedObjDefs[i], 0); //possibly some type of free?
         gLoadedObjDefs[i] = 0;
     }
-    D_800B1914 = 0;
+    gNumLoadedObjDefs = 0;
 }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80020C48.s")
 
-extern s32 D_800B191C;
-extern s32 D_800B1988;
-extern s16 D_800B18E0;
-extern s32 D_800B1928; //struct 0x38 bytes
-
 void func_80020D34(void) {
-    D_800B1914 = 0;
+    gNumLoadedObjDefs = 0;
     D_800B191C = 0;
     D_800B1988 = 0;
     gNumObjs = 0;
@@ -213,7 +187,7 @@ TActor** get_world_actors(s32 *outFirst, s32 *outCount) {
 
 s32 get_num_objects(void) { return gNumObjs; }
 
-s32 ret0_800212E8(void) { return 0; }
+s32 ret0_800212E8(void) { return 0; } //get_first_object()?
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800212F4.s")
 
@@ -307,15 +281,12 @@ void doNothing_80022DD8(s32 a0, s32 a1, s32 a2) { }
 
 s32 getObjIndexCount(void) { return gObjIndexCount; }
 
-//#pragma GLOBAL_ASM("asm/nonmatchings/object/isObjIndexEntryValid.s")
-#if 1
 BOOL isObjIndexEntryValid(s32 defNo) {
     if (gObjIndexCount < defNo) {
         return 0;
     }
     return gFile_OBJINDEX[defNo] != -1;
 }
-#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022E3C.s")
 
@@ -342,9 +313,9 @@ TActor *get_player(void) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_8002394C.s")
 
-void func_80023984(TActor *arg) { arg->mapId = -1; }
+void objClearMapId(TActor *arg) { arg->mapId = -1; }
 
-void func_80023994(TActor *obj) {
+void objUpdateMapId(TActor *obj) {
     obj->mapId = map_get_map_id_from_xz_ws(obj->srt.transl.x, obj->srt.transl.z);
 }
 
@@ -359,8 +330,6 @@ void func_80023A00(s8 *arg0, s8 arg1) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023A78.s")
 
-extern s8 D_800B1930;
-extern s32 D_800B1938; //some array
 void func_80023B34(s32 arg0) {
     s8   idx;
     s8  *count = &D_800B1930;

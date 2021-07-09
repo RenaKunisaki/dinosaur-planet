@@ -83,4 +83,19 @@ typedef enum
 /*4A*/    NUM_FILES
 } EFile;
 
+extern void *gFile_TABLES_BIN;
+extern s32  *gFile_TABLES_TAB;
+extern int  gNumTablesTabEntries;
+
+extern s32 *gFile_OBJECTS_TAB;
+extern int gNumObjectsTabEntries;
+
+extern s16 *gFile_OBJINDEX;
+extern int gObjIndexCount; //count of OBJINDEX.BIN entries
+
+int get_file_size(int file);
+void queue_alloc_load_file(void **dest, s32 fileId);
+void queue_load_file_to_ptr(void **dest, s32 fileId);
+void queue_load_file_region_to_ptr(void **dest, s32 arg1, s32 arg2, s32 arg3);
+
 #endif //_SYS_FS_H

@@ -99,6 +99,49 @@ extern float inverseDelayMirror; // why the mirrors, if they aren't used?
 extern struct TActor * object_pointer_array[]; //first is always player character.
 extern u16 objectCount;
 extern struct Vec3_Int Vec3_Int_array[];
+
 extern int gNumObjs;
+extern TActor **gObjList; //global object list
+
+extern void **gLoadedObjDefs;
+extern int gNumLoadedObjDefs;
+
+extern ObjData **gLoadedObjData;
+extern u8 *gObjRefCount; //pObjectRefCount
+
+extern u8    D_800916B0;
+extern s16   D_800B18E0;
+extern void *D_800B18E4;
+extern void *D_800B1918;
+extern s32   D_800B191C;
+extern s32   D_800B1928; //struct 0x38 bytes
+extern s8    D_800B1930;
+extern s32   D_800B1938; //some array
+extern s32   D_800B1988;
+
+void alloc_some_object_arrays(void);
+void func_80020D34(void);
+void init_objects(void);
+void doNothing_80020A40(void);
+void func_80020BB8();
+void func_80020D34(void);
+void func_80020D90(void);
+TActor** get_world_actors(s32 *outFirst, s32 *outCount);
+s32 get_num_objects(void);
+s32 ret0_800212E8(void);
+void copy_obj_position_mirrors(TActor *obj);
+void objFreeObjDef(s32 defNo);
+void doNothing_80022DD8(s32 a0, s32 a1, s32 a2);
+s32 getObjIndexCount(void);
+BOOL isObjIndexEntryValid(s32 defNo);
+TActor *get_player(void);
+void objClearMapId(TActor *arg);
+void objUpdateMapId(TActor *obj);
+void func_80023A00(s8 *arg0, s8 arg1);
+void func_80023B34(s32 arg0);
+void func_80024D74(TActor *obj, s32 arg1);
+void func_80024DD0(TActor *obj, s32 arg1, s16 arg2, s16 arg3);
+s16 func_80024E2C(TActor *arg0);
+u8 func_80025CD4(s32 arg0);
 
 #endif //_GAME_ACTOR_ACTOR_H

@@ -1230,3 +1230,6 @@ gNumObjs = 0x800B1924; // type:data size:0x4
 objFreeObjDef = 0x80022C68; // type:func
 getObjIndexCount = 0x80022DEC; // type:func
 isObjIndexEntryValid = 0x80022DFC; // type:func
+gNumLoadedObjDefs = 0x800B1914; // type:data size:0x4
+objClearMapId = 0x80023984; // type:func
+objUpdateMapId = 0x80023994; // type:func
