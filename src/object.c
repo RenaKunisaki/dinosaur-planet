@@ -310,7 +310,15 @@ TActor *get_player(void) {
     else return NULL;
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_8002394C.s")
+TActor* func_8002394C(void) {
+    TActor **result;
+    s32 nObj;
+    result = TActor_getter(1, &nObj);
+    if(nObj) return *result;
+    if(!nObj) {}
+    return 0;
+}
+
 
 void objClearMapId(TActor *arg) { arg->mapId = -1; }
 

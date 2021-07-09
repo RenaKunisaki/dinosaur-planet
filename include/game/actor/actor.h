@@ -119,6 +119,7 @@ extern s8    D_800B1930;
 extern s32   D_800B1938; //some array
 extern s32   D_800B1988;
 
+TActor **TActor_getter(s32 idx, s32 *count);
 void alloc_some_object_arrays(void);
 void func_80020D34(void);
 void init_objects(void);
