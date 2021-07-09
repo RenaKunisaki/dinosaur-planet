@@ -344,20 +344,10 @@ void func_80023B34(s32 arg0) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023C6C.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023CD8.s")
-#if 0
-void _func_80023CD8(TActor *obj, s32 arg1) {
-    s32 temp_t6;
-    s8 phi_a1;
-
-    temp_t6 = arg1 & 0xFFFF;
-    phi_a1 = (s8) temp_t6;
-    if ((s32) obj->data->unk9B < temp_t6) {
-        phi_a1 = (u8)0;
-    }
-    obj->unk_0xd0[4] = phi_a1;
+void func_80023CD8(TActor *obj, u16 arg1) {
+    if(obj->data->unk9B < arg1) arg1 = 0;
+    obj->unk_0xd0[4] = arg1;
 }
-#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023D08.s")
 #if 0

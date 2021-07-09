@@ -125,37 +125,41 @@ typedef struct ObjData { //originally copied from SFA; many fields likely incorr
 /*5e*/ u8 numSeqs;
 /*5f*/ char name[15];
 //most fields beyond here are copied from SFA and probably are wrong.
-/*60*/ u8 hitbox_fieldB0;
-/*61*/ u8 hasHitbox; //or # hitboxes, but should only be 1
-/*62*/ u8 hitboxSizeXY;
-/*63*/ u8 hitbox_field6A;
-/*64*/ u8 hitbox_field6B;
-/*65*/ u8 hitbox_flags62;
-/*66*/ u8 unk66;
-/*67*/ u8 hitbox_fieldB5;
-/*68*/ s16 hitboxSizeX1;
-/*6a*/ s16 hitboxSizeY1; // > 0x169 = no shadow; also hitbox related
-/*6c*/ s16 hitboxSizeZ1;
-/*6e*/ s16 hitboxSizeZ2;
-/*70*/ u8 hitbox_fieldB4; //related to hitbox (height?)
-/*71*/ u8 flags_0x71; //related to hitbox
-/*72*/ u8 numAButtonInteractions;
-/*73*/ u8 stateVar73; //1=translucent; 3=invincible - not flags
-/*74*/ u8 unk74;
-/*75*/ u8 unk75;
-/*76*/ s16 modLineCount;
-/*78*/ s16 modLineNo;
-/*7a*/ u8 unk7A;
-/*7b*/ u8 unk7B;
-/*7c*/ s16 helpTexts[4]; //one per model (GameTextId)
-/*84*/ s16 unk84;
-/*86*/ s16 unk86;
-/*88*/ float lagVar88; //causes lag at ~65536.0; GPU hang at much more; related to shadow; maybe causing excessive map loads?
-/*8c*/ u8 nLights;
-/*8d*/ u8 lightIdx;
-/*8e*/ u8 colorIdx; //related to textures; 1=dark, 2=default, 3+=corrupt, 77=crash, 0=normal
-/*8f*/ u8 unk8F; //related to hitbox
-/*90*/ u8 hitbox_flagsB6; // < 0xE = invincible (HitboxFlags62)
+/*6e*/ UNK_TYPE_8 unk6E;
+/*6f*/ UNK_TYPE_8 unk6F;
+/*70*/ UNK_TYPE_8 unk70;
+/*71*/ UNK_TYPE_8 unk71;
+/*72*/ UNK_TYPE_8 unk72;
+/*73*/ UNK_TYPE_8 unk73;
+/*74*/ UNK_TYPE_8 unk74;
+/*75*/ UNK_TYPE_8 unk75;
+/*76*/ UNK_TYPE_8 unk76;
+/*77*/ UNK_TYPE_8 unk77;
+/*78*/ UNK_TYPE_8 unk78;
+/*79*/ UNK_TYPE_8 unk79;
+/*7A*/ UNK_TYPE_8 unk7A;
+/*7B*/ UNK_TYPE_8 unk7B;
+/*7C*/ UNK_TYPE_8 unk7C;
+/*7D*/ UNK_TYPE_8 unk7D;
+/*7E*/ UNK_TYPE_8 unk7E;
+/*7F*/ UNK_TYPE_8 unk7F;
+/*80*/ UNK_TYPE_8 unk80;
+/*81*/ UNK_TYPE_8 unk81;
+/*82*/ UNK_TYPE_8 unk82;
+/*83*/ UNK_TYPE_8 unk83;
+/*84*/ UNK_TYPE_8 unk84;
+/*85*/ UNK_TYPE_8 unk85;
+/*86*/ UNK_TYPE_8 unk86;
+/*87*/ UNK_TYPE_8 unk87;
+/*88*/ UNK_TYPE_8 unk88;
+/*89*/ UNK_TYPE_8 unk89;
+/*8A*/ UNK_TYPE_8 unk8A;
+/*8B*/ UNK_TYPE_8 unk8B;
+/*8C*/ UNK_TYPE_8 unk8C;
+/*8D*/ UNK_TYPE_8 unk8D;
+/*8E*/ UNK_TYPE_8 unk8E;
+/*8F*/ UNK_TYPE_8 unk8F;
+/*90*/ UNK_TYPE_8 unk90;
 /*91*/ UNK_TYPE_8 unk91;
 /*92*/ UNK_TYPE_8 unk92;
 /*93*/ UNK_TYPE_8 unk93;
