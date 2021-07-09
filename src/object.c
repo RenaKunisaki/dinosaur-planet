@@ -13,14 +13,6 @@ extern int gNumTablesTabEntries;
 extern TActor **gObjList; //global object list
 extern int gNumObjs;
 
-enum FILE_ID {
-    FILE_TABLES_BIN   = 0x16,
-    FILE_TABLES_TAB   = 0x17,
-    FILE_BITTABLE     = 0x37,
-    FILE_OBJECTS_TAB  = 0x41,
-    FILE_OBJINDEX_BIN = 0x43
-};
-
 extern void *gFile_TABLES_BIN;
 extern s32  *gFile_TABLES_TAB;
 extern s32  *gFile_OBJECTS_TAB;
@@ -42,12 +34,12 @@ void init_objects(void) {
     D_800B18E4     = malloc(0x10, ALLOC_TAG_OBJECTS_COL,  NULL);
 
     //load OBJINDEX.BIN and count number of entries
-    queue_alloc_load_file((void **) (&gFile_OBJINDEX), FILE_OBJINDEX_BIN);
-    gObjIndexCount = (get_file_size(FILE_OBJINDEX_BIN) >> 1) - 1;
+    queue_alloc_load_file((void **) (&gFile_OBJINDEX), OBJINDEX_BIN);
+    gObjIndexCount = (get_file_size(OBJINDEX_BIN) >> 1) - 1;
     while(!gFile_OBJINDEX[gObjIndexCount]) gObjIndexCount--;
 
     //load OBJECTS.TAB and count number of entries
-    queue_alloc_load_file((void **)&gFile_OBJECTS_TAB, FILE_OBJECTS_TAB);
+    queue_alloc_load_file((void **)&gFile_OBJECTS_TAB, OBJECTS_TAB);
     gNumObjectsTabEntries = 0;
     while(gFile_OBJECTS_TAB[gNumObjectsTabEntries] != -1) gNumObjectsTabEntries++;
     gNumObjectsTabEntries--;
@@ -58,8 +50,8 @@ void init_objects(void) {
     for(i = 0; i < gNumObjectsTabEntries; i++) gObjRefCount[i] = 0; //why not memset?
 
     //load TABLES.BIN and TABLES.TAB and count number of entries
-    queue_alloc_load_file((void **) (&gFile_TABLES_BIN), FILE_TABLES_BIN);
-    queue_alloc_load_file((void **) (&gFile_TABLES_TAB), FILE_TABLES_TAB);
+    queue_alloc_load_file((void **) (&gFile_TABLES_BIN), TABLES_BIN);
+    queue_alloc_load_file((void **) (&gFile_TABLES_TAB), TABLES_TAB);
     gNumTablesTabEntries = 0;
     while(gFile_TABLES_TAB[gNumTablesTabEntries] != -1) gNumTablesTabEntries++;
 
