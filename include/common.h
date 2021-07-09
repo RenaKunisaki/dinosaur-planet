@@ -10,7 +10,6 @@ typedef void UNK_PTR;
 typedef u32 BOOL;
 
 #include "constants.h"
-#include "sys/fs.h"
 #include "sys/memory.h"
 #include "sys/thread.h"
 #include "sys/math.h"
@@ -31,6 +30,7 @@ typedef u32 BOOL;
 #include "game/actor/actor.h"
 #include "game/actor/player/player.h"
 #include "game/map/map.h"
+#include "sys/fs.h"
 #include "variables.h"
 #include "functions.h"
 

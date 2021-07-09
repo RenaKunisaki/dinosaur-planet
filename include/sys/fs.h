@@ -88,6 +88,7 @@ extern s32  *gFile_TABLES_TAB;
 extern int  gNumTablesTabEntries;
 
 extern s32 *gFile_OBJECTS_TAB;
+extern ObjData *gFile_OBJECTS_BIN;
 extern int gNumObjectsTabEntries;
 
 extern s16 *gFile_OBJINDEX;

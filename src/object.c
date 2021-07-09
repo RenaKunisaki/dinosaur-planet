@@ -431,7 +431,6 @@ void func_80025540(TActor *obj, s32 a1, s32 a2)
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80025780.s")
 
-extern u8 D_800916B0;
 u8 func_80025CD4(s32 arg0) {
     if (arg0 >= 0x21) {
         return (u8)0U;
