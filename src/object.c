@@ -6,6 +6,8 @@
 void alloc_some_object_arrays(void);
 void func_80020D34(void);
 
+/** Initialize the object system.
+ */
 void init_objects(void) {
     int i;
 
@@ -46,6 +48,8 @@ void init_objects(void) {
 #if 0
 extern char D_800994E0;
 
+/** Update all active objects.
+ */
 void _update_objects(void) {
     s16 size;
     TActor *obj2;
@@ -169,7 +173,7 @@ void func_80020D90(void) { D_800B18E0 = 0; }
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800210DC.s")
 
-/**
+/** Retrieve list and count of active objects.
  * @param outFirst Receives index of first object (always 0). (can be NULL)
  * @param outCount Receives number of objects. (can be NULL)
  * @return gObjList.
@@ -180,14 +184,21 @@ TActor** get_world_actors(s32 *outFirst, s32 *outCount) {
     return gObjList;
 }
 
+/** Retrieve one active object.
+ *  @param idx Index into gObjList to retrieve.
+ *  @return The object, or NULL if idx is not valid.
+ */
 TActor* get_actor(s32 idx) {
-    if ((idx < 0) || (idx >= gNumObjs)) return 0;
+    if ((idx < 0) || (idx >= gNumObjs)) return NULL;
     return gObjList[idx];
 }
 
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800211B4.s")
 
+/** Retrieve the number of active objects.
+ *  @return gNumObjs,
+ */
 s32 get_num_objects(void) { return gNumObjs; }
 
 s32 ret0_800212E8(void) { return 0; } //get_first_object()?
@@ -286,8 +297,15 @@ void objFreeObjDef(s32 defNo) {
 
 void doNothing_80022DD8(s32 a0, s32 a1, s32 a2) { }
 
+/** Retrieve the number of entries in OBJINDEX.
+ *  @return Number of entries in OBJINDEX.BIN.
+ */
 s32 getObjIndexCount(void) { return gObjIndexCount; }
 
+/** Check if an OBJINDEX entry is valid.
+ *  @param defNo the entry index to check.
+ *  @return True if valid, false if not.
+ */
 BOOL isObjIndexEntryValid(s32 defNo) {
     if (gObjIndexCount < defNo) {
         return 0;
@@ -309,35 +327,46 @@ BOOL isObjIndexEntryValid(s32 defNo) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023894.s")
 
+/** Retrieve the current player object.
+ *  @return Current player object, or NULL.
+ */
 TActor *get_player(void) {
     TActor **obj;
-    int idx;
+    s32 idx;
     obj = TActor_getter(0, &idx);
     if(idx) {} else {}; //wat
     if(idx) return *obj;
     else return NULL;
 }
 
+//probably get Tricky or Staff or something
 TActor* func_8002394C(void) {
-    TActor **result;
-    s32 nObj;
-    result = TActor_getter(1, &nObj);
-    if(nObj) return *result;
-    if(!nObj) {}
+    TActor **obj;
+    s32 idx;
+    obj = TActor_getter(1, &idx);
+    if(idx) return *obj;
+    if(!idx) {}
     return 0;
 }
 
+/** Set object's map ID to -1 (ie none).
+ *  @param obj Object to set.
+ */
+void objClearMapId(TActor *obj) { obj->mapId = -1; }
 
-void objClearMapId(TActor *arg) { arg->mapId = -1; }
-
+/** Ensure object's map ID is correct for the object's location.
+ *  @param obj Object to update.
+ */
 void objUpdateMapId(TActor *obj) {
     obj->mapId = map_get_map_id_from_xz_ws(obj->srt.transl.x, obj->srt.transl.z);
 }
 
-int objAdjustPos(SRT *arg0, f32 x, f32 y, f32 z) {
-    arg0->transl.x = (f32) (arg0->transl.x + x);
-    arg0->transl.y = (f32) (arg0->transl.y + y);
-    arg0->transl.z = (f32) (arg0->transl.z + z);
+/** Add the given values to the given object's position.
+ */
+int objAdjustPos(SRT *obj, f32 x, f32 y, f32 z) {
+    obj->transl.x = (f32) (obj->transl.x + x);
+    obj->transl.y = (f32) (obj->transl.y + y);
+    obj->transl.z = (f32) (obj->transl.z + z);
     return 0;
 }
 
