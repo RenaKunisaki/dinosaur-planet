@@ -334,7 +334,12 @@ void objUpdateMapId(TActor *obj) {
     obj->mapId = map_get_map_id_from_xz_ws(obj->srt.transl.x, obj->srt.transl.z);
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_800239C0.s")
+int objAdjustPos(SRT *arg0, f32 x, f32 y, f32 z) {
+    arg0->transl.x = (f32) (arg0->transl.x + x);
+    arg0->transl.y = (f32) (arg0->transl.y + y);
+    arg0->transl.z = (f32) (arg0->transl.z + z);
+    return 0;
+}
 
 //arg0 is most likely TActor*
 void func_80023A00(s8 *arg0, s8 arg1) {

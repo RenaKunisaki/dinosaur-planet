@@ -1234,3 +1234,4 @@ gNumLoadedObjDefs = 0x800B1914; // type:data size:0x4
 objClearMapId = 0x80023984; // type:func
 objUpdateMapId = 0x80023994; // type:func
 get_actor = 0x80021178; // type:func
+objAdjustPos = 0x800239C0; // type:func
