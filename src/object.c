@@ -256,7 +256,16 @@ void copy_obj_position_mirrors(TActor *obj)
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800227AC.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022828.s")
+UNK_TYPE_32 func_80022828(TActor *obj) {
+    DLLInstance **dll;
+
+    dll = obj->dll;
+    if (dll != NULL) {
+        //also matches with asVoidS32(), but seems unlikely
+        return (*dll)->func[5].asS32_S32((s32)obj);
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80022868.s")
 

@@ -33,6 +33,7 @@ enum DLL_ID {
 typedef union {
     /* 0x04 */ void (*asVoid)(void);
     /* 0x04 */ s32 (*asVoidS32)(void); //HACK
+    /* 0x04 */ s32 (*asS32_S32)(s32); //HACK
     /* 0x04 */ void (*withOneArg)(s32);
     /* 0x04 */ void (*withTwoArgs)(s32, s32);
     /* 0x04 */ void (*withThreeArgs)(s32, s32, s32);
