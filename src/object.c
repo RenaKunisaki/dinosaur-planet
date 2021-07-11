@@ -464,6 +464,22 @@ s16 func_80024E2C(TActor *arg0) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800250F4.s")
 
+//this is wrong but I'm too tired to find out why
+/* extern f32 D_8009983C;
+s32 _func_800250F4(TActor *obj, f32 arg1) {
+    s32 result = 0;
+    if (arg1 > D_8009983C) {
+        arg1 = 0;
+    }
+    else if (arg1 < D_8009983C) {
+        arg1 = D_8009983C;
+    }
+
+    obj->unk0x9c = arg1;
+    return result;
+} */
+
+
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80025140.s")
 
 #if 1
