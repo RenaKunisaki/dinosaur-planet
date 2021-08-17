@@ -451,7 +451,7 @@ s32 _func_80023D30(TActor *obj, s32 animId, f32 arg2, s32 arg3) {
     s32 phi_s0;
     f32 phi_f12_3;
     s16 phi_s0_2;
-    void *phi_a0;
+    u8 *phi_a0;
     AnimState *animState_phi_v0;
     f32 phi_f12_4;
 

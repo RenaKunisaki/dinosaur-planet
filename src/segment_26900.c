@@ -1,6 +1,30 @@
 #include "common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/segment_26900/alloc_some_object_arrays.s")
+//#pragma GLOBAL_ASM("asm/nonmatchings/segment_26900/alloc_some_object_arrays.s")
+#if 1
+int func_80028D90(); // extern
+void* malloc(s32 size, s32 tag, const char *name); // extern
+extern f32 D_800B1990;
+extern s32 D_800B1994;
+extern s32 D_800B199C;
+extern s32 D_800B20A0;
+extern s32 D_800B20A8;
+extern s32 D_800B20AC;
+extern s32 D_800B20B0;
+extern s32 D_800B20B4;
+
+void alloc_some_object_arrays(void) {
+    D_800B1994 = malloc(0xA0, 0xE, 0);
+    D_800B199C = malloc(0x708, 0xE, 0);
+    D_800B20A0 = malloc(0x1900, 0xE, 0);
+    D_800B20A8 = malloc(0x400, 0xE, 0);
+    D_800B20AC = malloc(0x400, 0xE, 0);
+    D_800B20B0 = malloc(0x400, 0xE, 0);
+    D_800B20B4 = malloc(0x400, 0xE, 0);
+    D_800B1990 = 2.0f;
+    func_80028D90();
+}
+#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/segment_26900/func_80025DD4.s")
 
