@@ -48,14 +48,13 @@ typedef struct
 /*001C*/    void *unk_0x1c;
 /*0020*/    ModelUnk0x20 *unk_0x20;
 /*0024*/    u8 *amap;
-/*0028*/    void *unk_0x28;
+/*0028*/    void **unk_0x28;
 /*002C*/    void *unk_0x2c;
-/*0030*/    u32 unk_0x30;
+/*0030*/    u16 *unk_0x30;
 /*0034*/    void *unk_0x34;
 /*0038*/    ModelDLInfo *dlInfos;
 /*003C*/    void *unk_0x3c;
-/*0040*/    u32 unk_0x40;
-/*0044*/    u32 unk_0x44;
+/*0040*/    u16 animIdxs[4];
 /*0048*/    u32 unk_0x48;
 /*004C*/    u32 unk_0x4c;
 /*0050*/    void *unk_0x50;

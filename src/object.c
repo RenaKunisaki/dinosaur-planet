@@ -426,6 +426,8 @@ void func_80019118(f32, s16, s16, s32, void *); // extern
 void func_800228D0(f32, void *, s16, s32, s32, s32); // extern
 void func_80026AB8(f32, void *, void *, s16, void *, s32, s32); // extern
 s32 _func_80023D30(TActor *obj, s32 animId, f32 arg2, s32 arg3) {
+    //this might be 8002f23c staffAnimateGrabOrPutAway
+    //or possibly 80030334 objLoadAnimation
     Model *model_sp48;
     AnimState *sp40;
     s32 sp2C;
@@ -476,15 +478,15 @@ s32 _func_80023D30(TActor *obj, s32 animId, f32 arg2, s32 arg3) {
             temp_t0 = animState0->unk_0x5a;
             animState0->unk_0x63 = (s8) temp_t6;
             animState0->unk_0x5a = 0;
-            animState0->unk_0x64 = -1; //?
-            animState0->animIndexes[1] = (u16) animState0->animIndexes[0];
-            animState0->unk_0x4[1] = (f32) animState0->unk_0x4[0];
-            animState0->unk_0x14[1] = (f32) animState0->unk_0x14[0];
-            animState0->unk_0x10 = (f32) animState0->unk_0xc;
-            animState0->unk_0x34[1] = (s32) animState0->unk_0x34[0];
-            animState0->unk_0x60[1] = (s8) animState0->unk_0x60[1];
-            animState0->unk_0x4c[1][0] = (u16) animState0->unk_0x48;
-            animState0->unk_0x3c[1] = (s32) animState0->unk_0x3c[0];
+            animState0->unk_0x64 = -1;
+            animState0->animIndexes_prev = (u16) animState0->animIndexes_cur;
+            animState0->unk_0x4_prev = (f32) animState0->unk_0x4_cur;
+            animState0->unk_0x14_prev = (f32) animState0->unk_0x14_cur;
+            animState0->unk_0xc_prev = (f32) animState0->unk_0xc_cur;
+            animState0->unk_0x34_prev = (s32) animState0->unk_0x34_cur; //fishy
+            animState0->unk_0x60_prev = (s8) animState0->unk_0x60_cur;
+            animState0->unk_0x4c_prev[0] = (u16) animState0->unk_0x48;
+            animState0->unk_0x3c_prev = (s32) animState0->unk_0x3c_cur;
             animState0->unk_0x5c = temp_t0;
             hitInfo = obj->objhitInfo;
             if ((hitInfo != 0) && (hitInfo->unk_0x0[8] != 0)) {
@@ -504,7 +506,7 @@ s32 _func_80023D30(TActor *obj, s32 animId, f32 arg2, s32 arg3) {
             prevAnimId = obj->curAnimId;
             obj->curAnimId = (s16) animId;
             temp_v1 = model_sp48->animCount;
-            temp_s0 = (model_sp48 + ((animId >> 8) * 2))->unk40 + (animId & 0xFF);
+            temp_s0 = model_sp48->animIdxs[animId >> 8] + (animId & 0xFF);
             phi_s0 = temp_s0;
             animState_phi_v0 = mdlInst->animState0;
             phi_f12_4 = phi_f12_3;
@@ -516,44 +518,46 @@ s32 _func_80023D30(TActor *obj, s32 animId, f32 arg2, s32 arg3) {
             if (phi_s0 < 0) {
                 phi_s0_2 = 0;
             }
-            if ((model_sp48->unk_0x71 & 0x40) != 0) {
+            if ((model_sp48->unk_0x71 & 0x40) != 0) { //UseLocalModAnimTab
                 if (((animId != prevAnimId) & 0xFF) != 0) {
                     mdlInst->animState0->unk_0x62 = (s8) (1 - mdlInst->animState0->unk_0x62);
                     temp_t7 = mdlInst->animState0->unk_0x62;
-                    mdlInst->animState0->animIndexes[0] = (s16) temp_t7;
+                    mdlInst->animState0->animIndexes_cur = (s16) temp_t7;
                     arg2 = phi_f12_3;
                     sp40 = mdlInst->animState0;
-                    func_80019118(phi_f12_3, *(model_sp48->unk_0x30 + (phi_s0_2 * 2)), phi_s0_2, (mdlInst->animState0 + ((temp_t7 & 0xFFFF) * 4))->unk1C, model_sp48);
+                    //load animation?
+                    func_80019118(phi_f12_3, model_sp48->unk_0x30[phi_s0_2], phi_s0_2,
+                        mdlInst->animState0->anims_cur[temp_t7 & 0xFFFF], model_sp48);
                     phi_f12_4 = arg2;
                 }
-                phi_a0 = (mdlInst->animState0 + (mdlInst->animState0->animIndexes[0] * 4))->unk1C + 0x80;
+                phi_a0 = (mdlInst->animState0 + (mdlInst->animState0->animIndexes_cur * 4))->anims_cur + 0x80;
                 animState_phi_v0 = mdlInst->animState0;
             } else {
-                mdlInst->animState0->animIndexes[0] = phi_s0_2;
-                phi_a0 = *(model_sp48->unk_0x28 + ((phi_s0_2 & 0xFFFF) * 4));
+                mdlInst->animState0->animIndexes_cur = phi_s0_2;
+                phi_a0 = model_sp48->unk_0x28[phi_s0_2 & 0xFFFF];
             }
             temp_v1_2 = phi_a0 + 6;
-            animState_phi_v0->unk_0x34[0] = temp_v1_2;
-            animState_phi_v0->unk_0x60[0] = (s8) (phi_a0->unk1 & 0xF0);
-            animState_phi_v0->unk_0x14[0] = (f32) temp_v1_2->unk1;
-            if (animState_phi_v0->unk_0x60[0] == 0) {
-                animState_phi_v0->unk_0x14[0] = (f32) (animState_phi_v0->unk_0x14[0] - 1.0f);
+            animState_phi_v0->unk_0x34_cur = temp_v1_2;
+            animState_phi_v0->unk_0x60_cur = (s8) (phi_a0->unk1 & 0xF0);
+            animState_phi_v0->unk_0x14_cur = (f32) temp_v1_2->unk1;
+            if (animState_phi_v0->unk_0x60_cur == 0) {
+                animState_phi_v0->unk_0x14_cur = (f32) (animState_phi_v0->unk_0x14_cur - 1.0f);
             }
             temp_t0_2 = phi_a0->unk1 & 0xF;
             if ((temp_t0_2 != 0) && ((sp2C & 0x10) == 0)) {
                 animState_phi_v0->unk_0x5e = (s16) (0x3FF / temp_t0_2);
                 animState_phi_v0->unk_0x58 = (s16) 0x3FF;
-                animState_phi_v0->unk_0x10 = (f32) animState_phi_v0->unk_0xc;
+                animState_phi_v0->unk_0xc_prev = (f32) animState_phi_v0->unk_0xc_cur;
             } else {
                 animState_phi_v0->unk_0x58 = 0;
             }
-            animState_phi_v0->unk_0xc = 0.0f;
-            animState_phi_v0->unk_0x4[0] = (f32) (animState_phi_v0->unk_0x14[0] * phi_f12_4);
+            animState_phi_v0->unk_0xc_cur = 0.0f;
+            animState_phi_v0->unk_0x4_cur = (f32) (animState_phi_v0->unk_0x14_cur * phi_f12_4);
             actor_temp_v1_3 = obj->linkedActor2;
             if ((actor_temp_v1_3 != 0) && (actor_temp_v1_3->objId == 0x30)) {
                 state = actor_temp_v1_3->state;
                 //XXX need to know what objId 0x30 is to know which type state is
-                state->unk84 = (u8) (state->unk84 & 0xFFFE);
+                state->unk84 = (u8) (state->unk84 & 0xFFFE); //what?
             }
         }
     }
