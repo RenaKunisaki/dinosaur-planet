@@ -11,10 +11,10 @@ typedef struct
 } Animation;
 
 typedef struct
-{
+{ //many of these 2-item arrays might just be two fields (current, previous)
 /*0000*/    u32 unk_0x0;
 /*0004*/    f32 unk_0x4[2];
-/*000C*/    u32 unk_0xc;
+/*000C*/    u32 unk_0xc; //should be another 2-item array
 /*0010*/    u32 unk_0x10;
 /*0014*/    f32 unk_0x14[2];
 /*001C*/    u8 *anims[2]; // Each item contains 0x80 bytes of amap data, followed by an Animation structure
@@ -30,7 +30,7 @@ typedef struct
 /*005C*/	s16 unk_0x5c;
 /*005E*/	u16 unk_0x5e;
 /*0060*/    s8 unk_0x60[2];
-/*0062*/    u8 unk_0x62;
+/*0062*/    u8 unk_0x62; //probably bool
 /*0063*/    s8 unk_0x63;
 } AnimState;
 

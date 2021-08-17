@@ -38,6 +38,8 @@ typedef struct TActor {
 /*0018*/    Vec3f positionMirror; //local vs global?
 /*0024*/    Vec3f speed;
 /*0030*/    struct TActor *linkedActor; //only used by update_objects?
+	//pretty sure up to this point is its own struct, which is used
+	//when making a list of visible objects for the current frame.
 /*0034*/    u8 unk_0x34;
 /*0035*/    s8 matrixIdx;
 /*0036*/    u8 unk_0x36;
@@ -77,7 +79,7 @@ typedef struct TActor {
 /*00BC*/    UNK_TYPE_32 unk0xbc;
 /*00C0*/    UNK_TYPE_32 unk0xc0;
 /*00C4*/    UNK_TYPE_32 unk0xc4;
-/*00C8*/    struct TActor *linkedActor2;
+/*00C8*/    struct TActor *linkedActor2; //child?
 /*00CC*/    void* ptr0xcc;
 /*00D0*/    u8 unk_0xd0[0xe4 - 0xd0];
 } TActor; // size is 0xe4; other actor-related data is placed in the following memory

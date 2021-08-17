@@ -421,6 +421,145 @@ void _func_80023D08(s8 *arg0, u16 arg1) {
 #endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_80023D30.s")
+#if 0
+void func_80019118(f32, s16, s16, s32, void *); // extern
+void func_800228D0(f32, void *, s16, s32, s32, s32); // extern
+void func_80026AB8(f32, void *, void *, s16, void *, s32, s32); // extern
+s32 _func_80023D30(TActor *obj, s32 animId, f32 arg2, s32 arg3) {
+    Model *model_sp48;
+    AnimState *sp40;
+    s32 sp2C;
+    s16 temp_t0;
+    s16 prevAnimId;
+    s16 temp_v1;
+    s32 temp_a2;
+    s32 temp_s0;
+    s32 temp_t0_2;
+    s32 temp_t6;
+    s8 temp_t7;
+    ModelInstance *mdlInst;
+    ActorObjhitInfo *hitInfo;
+    Model *model;
+    AnimState *animState0;
+    void *state;
+    void *temp_v1_2;
+    TActor *actor_temp_v1_3;
+    f32 phi_f12;
+    f32 phi_f12_2;
+    s32 phi_s0;
+    f32 phi_f12_3;
+    s16 phi_s0_2;
+    void *phi_a0;
+    AnimState *animState_phi_v0;
+    f32 phi_f12_4;
+
+    temp_t6 = arg3 & 0xFF;
+    phi_f12 = arg2;
+    if (arg2 > 1.0f) {
+        phi_f12 = 1.0f;
+    } else if (arg2 < 0.0f) {
+        phi_f12 = 0.0f;
+    }
+    obj->animTimer = phi_f12;
+    mdlInst = obj->modelInsts[obj->modelInstIdx];
+    phi_f12_2 = phi_f12;
+    if (mdlInst == 0) {
+
+    } else {
+        model = mdlInst->model;
+        model_sp48 = model;
+        if (model->animCount == 0) {
+
+        } else {
+            animState0 = mdlInst->animState0;
+            sp2C = temp_t6;
+            temp_t0 = animState0->unk_0x5a;
+            animState0->unk_0x63 = (s8) temp_t6;
+            animState0->unk_0x5a = 0;
+            animState0->unk_0x64 = -1; //?
+            animState0->animIndexes[1] = (u16) animState0->animIndexes[0];
+            animState0->unk_0x4[1] = (f32) animState0->unk_0x4[0];
+            animState0->unk_0x14[1] = (f32) animState0->unk_0x14[0];
+            animState0->unk_0x10 = (f32) animState0->unk_0xc;
+            animState0->unk_0x34[1] = (s32) animState0->unk_0x34[0];
+            animState0->unk_0x60[1] = (s8) animState0->unk_0x60[1];
+            animState0->unk_0x4c[1][0] = (u16) animState0->unk_0x48;
+            animState0->unk_0x3c[1] = (s32) animState0->unk_0x3c[0];
+            animState0->unk_0x5c = temp_t0;
+            hitInfo = obj->objhitInfo;
+            if ((hitInfo != 0) && (hitInfo->unk_0x0[8] != 0)) {
+                arg2 = phi_f12;
+                sp40 = animState0;
+                func_80026AB8(phi_f12, obj, mdlInst, obj->unk0x46, hitInfo, animId, 0);
+                phi_f12_2 = arg2;
+            }
+            temp_a2 = obj->ptr0x60;
+            phi_f12_3 = phi_f12_2;
+            if (temp_a2 != 0) {
+                arg2 = phi_f12_2;
+                sp40 = mdlInst->animState0;
+                func_800228D0(phi_f12_2, obj, obj->unk0x46, temp_a2, animId, 0);
+                phi_f12_3 = arg2;
+            }
+            prevAnimId = obj->curAnimId;
+            obj->curAnimId = (s16) animId;
+            temp_v1 = model_sp48->animCount;
+            temp_s0 = (model_sp48 + ((animId >> 8) * 2))->unk40 + (animId & 0xFF);
+            phi_s0 = temp_s0;
+            animState_phi_v0 = mdlInst->animState0;
+            phi_f12_4 = phi_f12_3;
+            phi_f12_4 = phi_f12_3;
+            if (temp_s0 >= (s32) temp_v1) {
+                phi_s0 = temp_v1 - 1;
+            }
+            phi_s0_2 = (s16) phi_s0;
+            if (phi_s0 < 0) {
+                phi_s0_2 = 0;
+            }
+            if ((model_sp48->unk_0x71 & 0x40) != 0) {
+                if (((animId != prevAnimId) & 0xFF) != 0) {
+                    mdlInst->animState0->unk_0x62 = (s8) (1 - mdlInst->animState0->unk_0x62);
+                    temp_t7 = mdlInst->animState0->unk_0x62;
+                    mdlInst->animState0->animIndexes[0] = (s16) temp_t7;
+                    arg2 = phi_f12_3;
+                    sp40 = mdlInst->animState0;
+                    func_80019118(phi_f12_3, *(model_sp48->unk_0x30 + (phi_s0_2 * 2)), phi_s0_2, (mdlInst->animState0 + ((temp_t7 & 0xFFFF) * 4))->unk1C, model_sp48);
+                    phi_f12_4 = arg2;
+                }
+                phi_a0 = (mdlInst->animState0 + (mdlInst->animState0->animIndexes[0] * 4))->unk1C + 0x80;
+                animState_phi_v0 = mdlInst->animState0;
+            } else {
+                mdlInst->animState0->animIndexes[0] = phi_s0_2;
+                phi_a0 = *(model_sp48->unk_0x28 + ((phi_s0_2 & 0xFFFF) * 4));
+            }
+            temp_v1_2 = phi_a0 + 6;
+            animState_phi_v0->unk_0x34[0] = temp_v1_2;
+            animState_phi_v0->unk_0x60[0] = (s8) (phi_a0->unk1 & 0xF0);
+            animState_phi_v0->unk_0x14[0] = (f32) temp_v1_2->unk1;
+            if (animState_phi_v0->unk_0x60[0] == 0) {
+                animState_phi_v0->unk_0x14[0] = (f32) (animState_phi_v0->unk_0x14[0] - 1.0f);
+            }
+            temp_t0_2 = phi_a0->unk1 & 0xF;
+            if ((temp_t0_2 != 0) && ((sp2C & 0x10) == 0)) {
+                animState_phi_v0->unk_0x5e = (s16) (0x3FF / temp_t0_2);
+                animState_phi_v0->unk_0x58 = (s16) 0x3FF;
+                animState_phi_v0->unk_0x10 = (f32) animState_phi_v0->unk_0xc;
+            } else {
+                animState_phi_v0->unk_0x58 = 0;
+            }
+            animState_phi_v0->unk_0xc = 0.0f;
+            animState_phi_v0->unk_0x4[0] = (f32) (animState_phi_v0->unk_0x14[0] * phi_f12_4);
+            actor_temp_v1_3 = obj->linkedActor2;
+            if ((actor_temp_v1_3 != 0) && (actor_temp_v1_3->objId == 0x30)) {
+                state = actor_temp_v1_3->state;
+                //XXX need to know what objId 0x30 is to know which type state is
+                state->unk84 = (u8) (state->unk84 & 0xFFFE);
+            }
+        }
+    }
+    return 0;
+}
+#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/object/func_800240BC.s")
 

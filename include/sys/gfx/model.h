@@ -88,7 +88,7 @@ typedef struct
 /*0014*/    void *unk_0x14;
 /*0018*/    Gfx *displayList;
 /*001C*/    u8 unk_0x1c[0x28 - 0x1c];
-/*0028*/    AnimState *animState0;
+/*0028*/    AnimState *animState0; //these two should be array
 /*002C*/    AnimState *animState1;
 /*0030*/    u32 unk_0x30;
 /*0034*/    u16 unk_0x34;
