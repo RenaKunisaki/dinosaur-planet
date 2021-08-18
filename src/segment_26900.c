@@ -1,26 +1,27 @@
 #include "common.h"
+#include "game/actor/actor.h"
 
 //#pragma GLOBAL_ASM("asm/nonmatchings/segment_26900/alloc_some_object_arrays.s")
 #if 1
 int func_80028D90(); // extern
 void* malloc(s32 size, s32 tag, const char *name); // extern
 extern f32 D_800B1990;
-extern s32 D_800B1994;
-extern s32 D_800B199C;
-extern s32 D_800B20A0;
-extern s32 D_800B20A8;
-extern s32 D_800B20AC;
-extern s32 D_800B20B0;
-extern s32 D_800B20B4;
+extern void *D_800B1994;
+extern void *D_800B199C;
+extern void *D_800B20A0;
+extern void *D_800B20A8;
+extern void *D_800B20AC;
+extern void *D_800B20B0;
+extern void *D_800B20B4;
 
 void alloc_some_object_arrays(void) {
-    D_800B1994 = malloc(0xA0, 0xE, 0);
-    D_800B199C = malloc(0x708, 0xE, 0);
-    D_800B20A0 = malloc(0x1900, 0xE, 0);
-    D_800B20A8 = malloc(0x400, 0xE, 0);
-    D_800B20AC = malloc(0x400, 0xE, 0);
-    D_800B20B0 = malloc(0x400, 0xE, 0);
-    D_800B20B4 = malloc(0x400, 0xE, 0);
+    D_800B1994 = malloc( 160, ALLOC_TAG_OBJECTS_COL, NULL);
+    D_800B199C = malloc(1800, ALLOC_TAG_OBJECTS_COL, NULL);
+    D_800B20A0 = malloc(6400, ALLOC_TAG_OBJECTS_COL, NULL);
+    D_800B20A8 = malloc(1024, ALLOC_TAG_OBJECTS_COL, NULL);
+    D_800B20AC = malloc(1024, ALLOC_TAG_OBJECTS_COL, NULL);
+    D_800B20B0 = malloc(1024, ALLOC_TAG_OBJECTS_COL, NULL);
+    D_800B20B4 = malloc(1024, ALLOC_TAG_OBJECTS_COL, NULL);
     D_800B1990 = 2.0f;
     func_80028D90();
 }
@@ -93,6 +94,23 @@ void alloc_some_object_arrays(void) {
 #pragma GLOBAL_ASM("asm/nonmatchings/segment_26900/func_80028D2C.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/segment_26900/func_80028D90.s")
+#if 0
+extern s32 D_800916E0;
+extern TActor *D_800916E4[];
+
+int _func_80028D90(void) {
+    int new_var;
+    TActor **new_var3;
+    if (1) { }
+    new_var3 = D_800916E4;
+    new_var = 1;
+    D_800916E0 = 0;
+    new_var3[1] = 0;
+    new_var3[2] = 0;
+    new_var3[3] = 0;
+    return new_var;
+}
+#endif
 
 #pragma GLOBAL_ASM("asm/nonmatchings/segment_26900/func_80028DC4.s")
 
